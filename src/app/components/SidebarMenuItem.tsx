@@ -15,7 +15,9 @@ const SidebarMenuItem: FC<Props> = ({path, icon, title, subTitle}) => {
 
   return (
    <Link href={path} className={`sidebarItem ${pathname === path ? "sidebarItemActive" : ''}`}>
-      {icon}
+      <div className='text-xl'>
+        {icon}
+      </div>
       <div className="flex flex-col">
         <span className="text-lg font-bold leading-5 text-white">{title}</span>
         <span className="text-sm text-white/50 hidden md:block">{subTitle}</span>
