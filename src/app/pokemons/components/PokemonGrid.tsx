@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { SimplePokemon } from '../interfaces/simple-pokemon'
 import PokemonCard from './PokemonCard'
 
