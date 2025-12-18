@@ -1,9 +1,21 @@
 import { FC } from "react"
+import { Metadata } from "next"
 import { Pokemon } from "../../../../pokemons"
 
 interface Props {
   params: {
     id: string
+  }
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { id } = await props.params
+
+  const { name } = await getPokemon(id)
+
+  return {
+    title: `#${id} - ${name}`,
+    description: `Pokemon page ${name}`,
   }
 }
 
@@ -24,7 +36,7 @@ const PokemonPage: FC<Props> = async ({ params }) => {
     <div>
       <h1>PokemonPage {pokemon.name}</h1>
       <div>
-        { JSON.stringify(pokemon) }
+        { pokemon.name }
       </div>
     </div>
   )
