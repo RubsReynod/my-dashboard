@@ -23,7 +23,7 @@ const PokemonsPage = async () => {
   const pokemons = await getPokemons(151)
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col p-4'>
       <span className='text-5xl my-2'>Pokemons list <small>Static</small></span>
       
       <PokemonGrid pokemons={pokemons} />

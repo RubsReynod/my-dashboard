@@ -7,7 +7,7 @@ export const metadata = {
 
 const Counter = () => {
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
+    <div className="flex flex-col items-center justify-center w-full h-full p-4">
       <span>Cart products</span>
 
       <CartCounter value={20} />

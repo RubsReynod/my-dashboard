@@ -10,6 +10,13 @@ interface Props {
   }
 }
 
+// Build Time
+export async function generateStaticParams() {
+  return Array.from({ length: 151 }, (_, i) => ({
+    id: `${i + 1}`,
+  }))
+}
+
 export async function generateMetadata(props: Props): Promise<Metadata> {
   try {
     const { id } = await props.params
@@ -31,7 +38,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 const getPokemon = async (id: string): Promise<Pokemon> => {
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-      cache: 'force-cache' // TODO: Change to 'no-store'
+      // cache: 'force-cache', // TODO: Change to 'no-store'
+      next: {
+        revalidate: 60 * 60 * 24 * 30 // 60 Months
+      }
     }).then(res => res.json())
 
     return res
@@ -46,7 +56,7 @@ const PokemonPage: FC<Props> = async (props: Props) => {
   const pokemon = await getPokemon(id);
 
   return (
-    <div className="flex mt-5 flex-col items-center text-slate-800">
+    <div className="flex mt-5 flex-col items-center text-slate-800 p-4">
       <div className="relative flex flex-col items-center rounded-[20px] w-[700px] mx-auto bg-white bg-clip-border  shadow-lg  p-3">
         <div className="mt-2 mb-8 w-full">
           <h1 className="px-2 text-xl font-bold text-slate-700 capitalize">
