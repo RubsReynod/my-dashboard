@@ -2,6 +2,7 @@ import { FC } from "react"
 import { Metadata } from "next"
 import { Pokemon } from "../../../../pokemons"
 import Image from "next/image"
+import { notFound } from "next/navigation"
 
 interface Props {
   params: {
@@ -10,22 +11,33 @@ interface Props {
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { id } = await props.params
+  try {
+    const { id } = await props.params
 
-  const { name } = await getPokemon(id)
+    const { name } = await getPokemon(id)
 
-  return {
-    title: `#${id} - ${name}`,
-    description: `Pokemon page ${name}`,
+    return {
+      title: `#${id} - ${name}`,
+      description: `Pokemon page ${name}`,
+    }
+  } catch {
+    return {
+      title: 'Pokemon page',
+      description: 'Pokemon page',
+    }
   }
 }
 
 const getPokemon = async (id: string): Promise<Pokemon> => {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-    cache: 'force-cache' // TODO: Change to 'no-store'
-  }).then(res => res.json())
+  try {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
+      cache: 'force-cache' // TODO: Change to 'no-store'
+    }).then(res => res.json())
 
-  return res
+    return res
+  } catch {
+    throw notFound()
+  }
 }
 
 const PokemonPage: FC<Props> = async (props: Props) => {
@@ -122,7 +134,7 @@ const PokemonPage: FC<Props> = async (props: Props) => {
 
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>
